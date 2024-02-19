@@ -24,12 +24,12 @@ app.get('/register', (req, res) => {
     res.render('register');
 });
 
-// GET/home
+// GET /home
 app.get('/home', (req, res) => {
     res.send('HomePage');
 });
 
-// POST /register
+// GET /admin
 app.get('/admin', (req, res) => {
     res.send('Admin Page');
 });
@@ -41,6 +41,28 @@ app.post('/register', async (req, res) => {
     const user = new User({ username, password: hashedPassword});
     await user.save();
     res.redirect('/home');
+});
+
+// GET /login
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+
+// POST /login
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+    if (user) {
+        const valid = await bcrypt.compare(password, user.password);
+        if (valid) {
+            res.redirect('/admin');
+        } else {
+            res.send('/login');
+        }
+    }
+    else {
+        res.send('Not Allowed');
+    }
 });
 
 app.listen(3000, () => {
