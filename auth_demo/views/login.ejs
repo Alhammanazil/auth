@@ -17,6 +17,18 @@
     h1 {
       text-align: center;
       margin-top: 50px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     form {
@@ -26,6 +38,7 @@
       background-color: #fff;
       border-radius: 5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 1s ease-in-out;
     }
 
     label {
@@ -41,6 +54,18 @@
       border-radius: 4px;
       box-sizing: border-box;
       margin-bottom: 20px;
+      animation: slideIn 1s ease-in-out;
+    }
+
+    @keyframes slideIn {
+      0% {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
     }
 
     button[type="submit"] {
@@ -51,10 +76,35 @@
       border-radius: 4px;
       cursor: pointer;
       font-size: 16px;
+      animation: scaleIn 1s ease-in-out;
+    }
+
+    @keyframes scaleIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
     button[type="submit"]:hover {
       background-color: #45a049;
+      animation: pulse 0.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
     }
   </style>
 
@@ -71,6 +121,7 @@
       <input type="password" id="password" name="password" required>
     </div>
     <button type="submit">Login</button>
+    <p>Don't have an account yet? <a href="/register">Register</a></p>
   </form>
 </body>
 </html>

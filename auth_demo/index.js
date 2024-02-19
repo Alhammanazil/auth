@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const session = require('express-session');
 const User = require('./models/user');
 
 mongoose.connect('mongodb://localhost:27017/auth_demo')
@@ -17,6 +18,11 @@ app.set('views', 'views');
 
 //middleware
 app.use(express.urlencoded({ extended: true }));
+app.use(session({
+    secret: 'notagoodsecret',
+    resave: false,
+    saveUninitialized: true
+}));
 
 
 // GET /register
@@ -25,13 +31,8 @@ app.get('/register', (req, res) => {
 });
 
 // GET /home
-app.get('/home', (req, res) => {
-    res.send('HomePage');
-});
-
-// GET /admin
-app.get('/admin', (req, res) => {
-    res.send('Admin Page');
+app.get('/', (req, res) => {
+    res.render('home');
 });
 
 // POST /register
@@ -40,7 +41,7 @@ app.post('/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ username, password: hashedPassword});
     await user.save();
-    res.redirect('/home');
+    res.redirect('/login');
 });
 
 // GET /login
@@ -55,14 +56,23 @@ app.post('/login', async (req, res) => {
     if (user) {
         const valid = await bcrypt.compare(password, user.password);
         if (valid) {
+            req.session.user_id = user._id;
             res.redirect('/admin');
         } else {
-            res.send('/login');
+            res.redirect('/login');
         }
     }
     else {
         res.send('Not Allowed');
     }
+});
+
+// GET /admin
+app.get('/admin', (req, res) => {
+    if (!req.session.user_id) {
+        res.redirect('/login');
+    }
+    res.send('⭐ Admin Page');
 });
 
 app.listen(3000, () => {
