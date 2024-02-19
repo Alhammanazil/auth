@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/800px-JavaScript-logo.png" type="image/x-icon">
-    <title>Homepage</title>
+    <title>Admin Page</title>
 
     <style>
         /* Add your custom styles here */
@@ -51,6 +51,7 @@
             border-radius: 5px;
             padding: 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
         }
         
         h1 {
@@ -81,14 +82,12 @@
         @keyframes fadeIn {
             0% {
                 opacity: 0;
+                transform: translateY(20px);
             }
             100% {
                 opacity: 1;
+                transform: translateY(0);
             }
-        }
-        
-        .animated {
-            animation: fadeIn 1s ease-in-out;
         }
         /* END: Animation */
     </style>
@@ -98,15 +97,18 @@
     <header>
         <nav>
             <ul>
-                <h1>🏠 Homepage</h1>
+                <h1>Admin Page</h1>
             </ul>
         </nav>
     </header>
     <main>
-        <section class="animated">
-            <h1>Welcome to our website 👋</h1>
-            <p>This is a simple homepage for a fictional company.</p>
-            <button onclick="window.location.href='/login'">Login</button>
+        <section>
+            <h1>Welcome to Admin Page 👋</h1>
+            <p>This is the admin dashboard. You can manage users, settings, and more.</p>
+            <p>Feel free to customize this page to suit your needs.</p><br>
+            <form action="/logout" method="POST">
+                <button type="submit">Logout</button>
+            </form>
         </section>
     </main>
     <footer>

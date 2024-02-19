@@ -24,6 +24,13 @@ app.use(session({
     saveUninitialized: true
 }));
 
+const auth = (req, res, next) => {
+    if (!req.session.user_id) {
+        return res.redirect('/login');
+    }
+    next();
+};
+
 
 // GET /register
 app.get('/register', (req, res) => {
@@ -67,12 +74,15 @@ app.post('/login', async (req, res) => {
     }
 });
 
+// POST /logout
+app.post('/logout', auth, (req, res) => {
+    req.session.user_id = null;
+    res.redirect('/login');
+});
+
 // GET /admin
-app.get('/admin', (req, res) => {
-    if (!req.session.user_id) {
-        res.redirect('/login');
-    }
-    res.send('⭐ Admin Page');
+app.get('/admin', auth, (req, res) => {
+    res.render('admin');
 });
 
 app.listen(3000, () => {
